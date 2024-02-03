@@ -8,7 +8,8 @@
   "license": "None",
   "private": true,
   "dependencies": {
-    "@slack/bolt": "^3.17.1"
+    "@slack/bolt": "^3.17.1",
+    "llamaindex": "^0.1.9"
   },
   "scripts": {
     "start": "bun index.ts"
