@@ -1,5 +1,5 @@
-import { App } from '@slack/bolt';
-import { ingest } from './rag';
+import { App } from "@slack/bolt";
+import { ingest } from "./rag";
 
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -13,5 +13,5 @@ const app = new App({
   await app.start(process.env.PORT || 1337);
   app.message(/.*/, async (messageEvent) => ingest(messageEvent));
 
-  console.log('⚡️ Bolt app is running!');
+  console.log("⚡️ Bolt app is running!");
 })();

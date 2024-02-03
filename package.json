@@ -9,9 +9,11 @@
   "private": true,
   "dependencies": {
     "@slack/bolt": "^3.17.1",
-    "llamaindex": "^0.1.9"
+    "llamaindex": "^0.1.9",
+    "@slack/web-api": "^7.0.1",
+    "dotenv": "^16.4.1"
   },
   "scripts": {
-    "start": "bun index.ts"
+    "start": "bun rush.ts"
   }
 }

@@ -1,0 +1,52 @@
+Arguments: 
+  /usr/local/bin/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js install
+
+PATH: 
+  /Users/rushshah/.bun/bin:/opt/homebrew/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/rushshah/hadoop-3.2.3//sbin:/Users/rushshah/hadoop-3.2.3//bin:/Users/rushshah/hadoop-3.2.3//sbin:/Users/rushshah/hadoop-3.2.3//bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  20.11.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/rushshah/Desktop/RAG/vigil/package.json: Expected double-quoted property name in JSON at position 318
+      at JSON.parse (<anonymous>)
+      at /opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:310:30)
+      at /opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "vigil",
+    "version": "0.0.1",
+    "description": "Stay abreast of your email while remaining focused on your goals.",
+    "main": "index.ts",
+    "repository": "git@github.com:gavmor/vigil.git",
+    "author": "Vigil Team",
+    "license": "None",
+    "private": true,
+    "dependencies": {
+      "@slack/bolt": "^3.17.1",
+  <<<<<<< HEAD
+      "llamaindex": "^0.1.9"
+  =======
+      "@slack/web-api": "^7.0.1",
+      "dotenv": "^16.4.1"
+  >>>>>>> 2dd7a52 (rush.mjs)
+    },
+    "scripts": {
+      "start": "bun rush.ts"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
