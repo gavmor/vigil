@@ -10,9 +10,10 @@
   "dependencies": {
     "@slack/bolt": "^3.17.1",
     "@slack/web-api": "^7.0.1",
+    "pm2": "^5.3.1",
+    "@types/node": "^20.11.16",
     "dotenv": "^16.4.1",
-    "llamaindex": "^0.1.9",
-    "pm2": "^5.3.1"
+    "llamaindex": "^0.1.9"
   },
   "scripts": {
     "start": "bun rush.ts"
