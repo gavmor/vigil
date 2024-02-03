@@ -1,0 +1,16 @@
+{
+  "name": "vigil",
+  "version": "0.0.1",
+  "description": "Stay abreast of your email while remaining focused on your goals.",
+  "main": "index.ts",
+  "repository": "git@github.com:gavmor/vigil.git",
+  "author": "Vigil Team",
+  "license": "None",
+  "private": true,
+  "dependencies": {
+    "@slack/bolt": "^3.17.1"
+  },
+  "scripts": {
+    "start": "bun index.ts"
+  }
+}
