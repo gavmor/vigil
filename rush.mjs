@@ -3,6 +3,7 @@
 import Slack from "@slack/bolt";
 import dotenv from "dotenv";
 import { fetchStatus } from "./fetchStatus.mjs";
+import { fetchMessages } from "./fetchMessages.mjs";
 
 dotenv.config();
 
@@ -11,19 +12,17 @@ const app = new Slack.App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-await app.client.conversations
-  .history({
-    token: process.env.SLACK_BOT_TOKEN,
-    channel: process.env.SLACK_CHANNEL_ID,
-  })
-  .then((result) => {
-    //console.log(result.messages);
+function getChatMessages() {
+  fetchMessages().then((messages) => {
+    console.log(messages);
   });
+}
 
-function getData() {
+function getUserStatus() {
   fetchStatus().then((status) => {
     console.log(status);
   });
 }
 
-setInterval(getData, 5000);
+setInterval(getUserStatus, 5000);
+setInterval(getChatMessages, 7000);
