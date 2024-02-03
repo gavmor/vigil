@@ -11,7 +11,7 @@ const app = new App({
 (async () => {
   // Start the app
   await app.start(process.env.PORT || 1337);
-  app.message(/^(hi|hello|hey).*/, async (messageEvent) => ingest(messageEvent));
+  app.message(/.*/, async (messageEvent) => ingest(messageEvent));
 
   console.log('⚡️ Bolt app is running!');
 })();
