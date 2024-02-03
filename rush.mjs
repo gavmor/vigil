@@ -2,6 +2,7 @@
 
 import Slack from "@slack/bolt";
 import dotenv from "dotenv";
+import { fetchStatus } from "./fetchStatus.mjs";
 
 dotenv.config();
 
@@ -19,11 +20,10 @@ await app.client.conversations
     //console.log(result.messages);
   });
 
-await app.client.users
-  .info({
-    token: process.env.SLACK_BOT_TOKEN,
-    user: process.env.SLACK_USER_ID,
-  })
-  .then((result) => {
-    console.log(result.user.profile.status_text);
+function getData() {
+  fetchStatus().then((status) => {
+    console.log(status);
   });
+}
+
+setInterval(getData, 5000);
