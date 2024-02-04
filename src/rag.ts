@@ -17,13 +17,12 @@ async function init() {
   });
 }
 
-export async function ingest({body}){
+export async function ingest(messages){
   const vectorStore = astra()
 
   await vectorStore.connect("RAGathon")
   const storageContext = await storageContextFromDefaults({ vectorStore });
-  const documents = body.split("\n").map(text => new Document({ text, id_: path }))
-
+  const documents = messages.map(text => new Document({ text }))
 
   await VectorStoreIndex.fromDocuments(documents, { storageContext });
 }
