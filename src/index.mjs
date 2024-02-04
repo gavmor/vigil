@@ -122,4 +122,4 @@ let newDocument = messages.map((messages) => messages.message);
 
 // init()
 await ingest(newDocument);
-await query("Smith");
+await query(currentStatus);
