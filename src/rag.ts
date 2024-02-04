@@ -2,10 +2,10 @@ import fs from "node:fs/promises";
 import { Document, VectorStoreIndex, AstraDBVectorStore, Ollama, serviceContextFromDefaults, storageContextFromDefaults } from "llamaindex";
 
 const path = "sample.txt";
-const essay = await fs.readFile(path, "utf-8");
+const sample = await fs.readFile(path, "utf-8");
 async function main() {
   // await init()
-  // await ingest({body: essay})
+  // await ingest({body: sample})
   await query()
 }
 
@@ -17,14 +17,15 @@ async function init() {
   });
 }
 
-export async function ingest(event){
+export async function ingest({body}){
   const vectorStore = astra()
 
   await vectorStore.connect("RAGathon")
   const storageContext = await storageContextFromDefaults({ vectorStore });
-  const document = new Document({ text: event.body});
+  const documents = body.split("\n").map(text => new Document({ text, id_: path }))
 
-  await VectorStoreIndex.fromDocuments([document], { storageContext });
+
+  await VectorStoreIndex.fromDocuments(documents, { storageContext });
 }
 
 async function query() {
@@ -33,11 +34,11 @@ async function query() {
 
   const index = await VectorStoreIndex.fromVectorStore(vectorStore, serviceContextFromDefaults())
 
-  const [a, b] = await index.asRetriever().retrieve(
-    `Tell me a joke. Do not apologize.`,
+  const results = await index.asRetriever().retrieve(
+    `Smith`,
   );
 
-  console.log(a, b);
+  console.log(results);
 }
 
 function astra() {
