@@ -32,3 +32,11 @@ export async function fetchMessages() {
 
   return extractedData;
 }
+
+export async function postMessage(message) {
+  await app.client.chat.postMessage({
+    token: process.env.SLACK_BOT_TOKEN,
+    channel: "C06GMTHLK0X",
+    text: message,
+  });
+}
