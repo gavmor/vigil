@@ -1,6 +1,5 @@
 import Slack from "@slack/bolt";
 import dotenv from "dotenv";
-import { fetchStatus } from "./fetchStatus.mjs";
 
 dotenv.config();
 
