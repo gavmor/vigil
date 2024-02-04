@@ -43,7 +43,6 @@ async function updateUserStatus(newStatus) {
 }
 
 async function updateLastActivity(newlastActivity) {
-  console.log(newlastActivity);
   const result = await timestampCollection.updateOne(
     { _id: "1" },
     { $set: { lastActivity: newlastActivity } }
@@ -78,6 +77,7 @@ async function statusUpdate(user, currentStatus) {
   }
 }
 
+let lastActivity;
 async function chatUpdate(user) {
   let lastActivity = user.lastActivity;
   let documents = [];
@@ -86,7 +86,8 @@ async function chatUpdate(user) {
   let messages = await fetchMessages();
   const latestMessages = getLatestMessages(messages, lastActivity);
 
-  console.log(latestMessages.length + "\n");
+  console.log(latestMessages);
+
   if (latestMessages.length > 0) {
     documents = latestMessages.map(({ text, localTimestamp }) => {
       return {
@@ -109,17 +110,17 @@ async function chatUpdate(user) {
 }
 
 async function main() {
-let user = await getUserInfo();
-let currentStatus = await fetchStatus();
+  let user = await getUserInfo();
+  let currentStatus = await fetchStatus();
 
-statusUpdate(user, currentStatus);
-let newMessages = await chatUpdate(user);
+  statusUpdate(user, currentStatus);
+  let newMessages = await chatUpdate(user);
 
-let messages = newMessages.documents;
+  let messages = newMessages.documents;
 
-let newDocument = messages.map((messages) => messages.message);
+  let newDocument = messages.map((messages) => messages.message);
 
-// console.log(newDocument);
+  // console.log(newDocument);
 
   await ingest(newDocument)
     .then(() => query(currentStatus))
@@ -130,15 +131,13 @@ let newDocument = messages.map((messages) => messages.message);
           .toLocaleLowerCase()
           .includes("here is not enough information provided")
       ) {
-        console.log(" No new messages");
-        postMessage("No new messages");
       } else {
         console.log(response);
         postMessage(response);
       }
     });
 
-    main()
+  main();
 }
 
-main()
+main();
