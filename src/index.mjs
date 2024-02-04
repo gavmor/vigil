@@ -7,7 +7,7 @@ import {
   serviceContextFromDefaults,
   storageContextFromDefaults,
 } from "llamaindex";
-import { ingest, init, query } from "./rag.mjs"
+import { ingest, init, query } from "./rag.mjs";
 import { fetchStatus, fetchMessages } from "./slackData.mjs";
 
 import {
@@ -37,6 +37,14 @@ async function updateUserStatus(newStatus) {
   const result = await timestampCollection.updateOne(
     { _id: "1" },
     { $set: { userStatus: newStatus } }
+  );
+  return result;
+}
+
+async function updateLastActivity(newlastActivity) {
+  const result = await timestampCollection.updateOne(
+    { _id: "1" },
+    { $set: { lastActivity: newlastActivity } }
   );
   return result;
 }
@@ -87,7 +95,10 @@ async function chatUpdate(user) {
       return currentTimestamp > latestTimestamp ? current : latest;
     });
 
-    //console.log(latestMessage.timestamp);
+    await updateLastActivity(latestMessage.localTimestamp).then((result) => {
+      console.log(result);
+      console.log("Last activity updated\n");
+    });
   }
 
   return { documents, latestMessage };
@@ -106,4 +117,4 @@ let newDocument = messages.map((messages) => messages.message);
 
 // init()
 // await ingest(newDocument)
-await query()
+await query();
