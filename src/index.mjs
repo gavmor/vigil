@@ -116,5 +116,5 @@ let newDocument = messages.map((messages) => messages.message);
 // console.log(newDocument);
 
 // init()
-// await ingest(newDocument)
+await ingest(newDocument)
 await query();
