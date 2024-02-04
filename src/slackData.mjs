@@ -15,3 +15,20 @@ export async function fetchStatus() {
   });
   return result.user.profile.status_text;
 }
+
+export async function fetchMessages() {
+  const result = await app.client.conversations.history({
+    token: process.env.SLACK_BOT_TOKEN,
+    channel: process.env.SLACK_CHANNEL_ID,
+  });
+  const apiResponse = result.messages;
+  const messagesWithClientMsgId = apiResponse.filter(
+    (message) => message.client_msg_id
+  );
+  const extractedData = messagesWithClientMsgId.map(({ text, ts }) => {
+    const localTimestamp = new Date(parseFloat(ts) * 1000).toLocaleString();
+    return { text, localTimestamp };
+  });
+
+  return extractedData;
+}
