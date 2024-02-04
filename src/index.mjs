@@ -8,7 +8,7 @@ import {
   storageContextFromDefaults,
 } from "llamaindex";
 import { ingest, init, query } from "./rag.mjs";
-import { fetchStatus, fetchMessages } from "./slackData.mjs";
+import { fetchStatus, fetchMessages, postMessage } from "./slackData.mjs";
 
 import {
   chatDBConnections,
@@ -121,5 +121,16 @@ let newDocument = messages.map((messages) => messages.message);
 // console.log(newDocument);
 
 // init()
-await ingest(newDocument);
-await query(currentStatus);
+ingest(newDocument)
+  .then(() => query(currentStatus))
+  .then(({ response }) => {
+    if (
+      response.toLocaleLowerCase().includes("empty response") ||
+      response
+        .toLocaleLowerCase()
+        .includes("here is not enough information provided")
+    ) {
+      console.log(" No new messages");
+      postMessage("No new messages");
+    }
+  });

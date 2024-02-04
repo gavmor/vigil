@@ -6,6 +6,7 @@ import {
   Ollama,
   serviceContextFromDefaults,
   storageContextFromDefaults,
+  SimilarityPostprocessor,
 } from "llamaindex";
 
 export async function init() {
@@ -32,8 +33,15 @@ export async function query(string) {
     vectorStore,
     serviceContextFromDefaults()
   );
-  const nodes = await index.asRetriever().retrieve(string);
-  console.log(nodes);
+  const response = await index
+    .asQueryEngine({
+      nodePostprocessors: [
+        new SimilarityPostprocessor({ similarityCutoff: 0.9 }),
+      ],
+    })
+    .query({ query: string });
+  // console.log(response.response);
+  return response;
 }
 
 function astra() {
