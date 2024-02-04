@@ -38,6 +38,7 @@ async function updateUserStatus(newStatus) {
     { _id: "1" },
     { $set: { userStatus: newStatus } }
   );
+  console.log(result);
   return result;
 }
 
@@ -46,6 +47,7 @@ async function updateLastActivity(newlastActivity) {
     { _id: "1" },
     { $set: { lastActivity: newlastActivity } }
   );
+  console.log(result);
   return result;
 }
 
@@ -106,6 +108,7 @@ async function chatUpdate(user) {
 
 let user = await getUserInfo();
 let currentStatus = await fetchStatus();
+
 statusUpdate(user, currentStatus);
 let newMessages = await chatUpdate(user);
 
@@ -116,5 +119,5 @@ let newDocument = messages.map((messages) => messages.message);
 // console.log(newDocument);
 
 // init()
-await ingest(newDocument)
+await ingest(newDocument);
 await query("Smith");
