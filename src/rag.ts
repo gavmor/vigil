@@ -32,13 +32,12 @@ async function query() {
   await vectorStore.connect("RAGathon")
 
   const index = await VectorStoreIndex.fromVectorStore(vectorStore, serviceContextFromDefaults())
-  const queryEngine = index.asQueryEngine();
 
-  const response = await queryEngine.query({
-    query: `Tell me a joke. Do not apologize.`,
-  });
+  const [{score: a}, {score: b}] = await index.asRetriever().retrieve(
+    `Tell me a joke. Do not apologize.`,
+  );
 
-  console.log(response.toString());
+  console.log(a, b);
 }
 
 function astra() {
