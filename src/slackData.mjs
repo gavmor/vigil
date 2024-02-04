@@ -8,23 +8,15 @@ const app = new Slack.App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-
 export async function fetchStatus() {
-  console.log("....fetching")
-  console.log({
-    token: process.env.SLACK_BOT_TOKEN,
-    user: process.env.SLACK_USER_ID,
-  })
   const result = await app.client.users.info({
     token: process.env.SLACK_BOT_TOKEN,
     user: process.env.SLACK_USER_ID,
   });
-  console.log("STATUS FETCHED")
   return result.user.profile.status_text;
 }
 
 export async function fetchMessages() {
-  console.log("fetchMessages")
   const result = await app.client.conversations.history({
     token: process.env.SLACK_BOT_TOKEN,
     channel: process.env.SLACK_CHANNEL_ID,

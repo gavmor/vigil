@@ -43,6 +43,7 @@ async function updateUserStatus(newStatus) {
 }
 
 async function updateLastActivity(newlastActivity) {
+  console.log(newlastActivity);
   const result = await timestampCollection.updateOne(
     { _id: "1" },
     { $set: { lastActivity: newlastActivity } }
@@ -53,11 +54,15 @@ async function updateLastActivity(newlastActivity) {
 
 function getLatestMessages(messageHistory, lastTimestamp) {
   console.log(`Last timestamp: ${lastTimestamp}\n`);
-  const comparisonTimestamp = new Date(lastTimestamp);
+  let comparisonTimestamp;
+  if (lastTimestamp === null) {
+    comparisonTimestamp = new Date("2/3/2024, 12:15:18 PM");
+  }
   const newMessages = messageHistory.filter(({ localTimestamp }) => {
     const messageDate = new Date(localTimestamp);
     return messageDate > comparisonTimestamp;
   });
+
   return newMessages;
 }
 
@@ -80,9 +85,9 @@ async function chatUpdate(user) {
 
   let messages = await fetchMessages();
   const latestMessages = getLatestMessages(messages, lastActivity);
+
   console.log(latestMessages.length + "\n");
   if (latestMessages.length > 0) {
-    console.log("New messages found");
     documents = latestMessages.map(({ text, localTimestamp }) => {
       return {
         message: text,
@@ -97,10 +102,7 @@ async function chatUpdate(user) {
       return currentTimestamp > latestTimestamp ? current : latest;
     });
 
-    await updateLastActivity(latestMessage.localTimestamp).then((result) => {
-      console.log(result);
-      console.log("Last activity updated\n");
-    });
+    await updateLastActivity(latestMessage.localTimestamp);
   }
 
   return { documents, latestMessage };
