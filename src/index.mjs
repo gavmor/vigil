@@ -7,7 +7,7 @@ import {
   serviceContextFromDefaults,
   storageContextFromDefaults,
 } from "llamaindex";
-
+import { ingest, init, query } from "./rag.mjs"
 import { fetchStatus, fetchMessages } from "./slackData.mjs";
 
 import {
@@ -102,4 +102,8 @@ let messages = newMessages.documents;
 
 let newDocument = messages.map((messages) => messages.message);
 
-console.log(newDocument);
+// console.log(newDocument);
+
+// init()
+// await ingest(newDocument)
+await query()
