@@ -1,4 +1,5 @@
-import { AstraDB, Collection } from "@datastax/astra-db-ts";
+import { AstraDB } from "@datastax/astra-db-ts";
+import { AstraDBVectorStore } from "llamaindex";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -18,4 +19,13 @@ export function timestampDBConnections() {
   );
 
   return timestampDB;
+}
+
+export function astra() {
+  return new AstraDBVectorStore({
+    params: {
+      token: process.env.ASTRA_DB_APPLICATION_TOKEN,
+      endpoint: process.env.ASTRA_DB_API_ENDPOINT,
+    },
+  });
 }
