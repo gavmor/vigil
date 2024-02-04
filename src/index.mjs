@@ -108,6 +108,7 @@ async function chatUpdate(user) {
   return { documents, latestMessage };
 }
 
+async function main() {
 let user = await getUserInfo();
 let currentStatus = await fetchStatus();
 
@@ -120,20 +121,24 @@ let newDocument = messages.map((messages) => messages.message);
 
 // console.log(newDocument);
 
-// init()
-ingest(newDocument)
-  .then(() => query(currentStatus))
-  .then(({ response }) => {
-    if (
-      response.toLocaleLowerCase().includes("empty response") ||
-      response
-        .toLocaleLowerCase()
-        .includes("here is not enough information provided")
-    ) {
-      console.log(" No new messages");
-      postMessage("No new messages");
-    } else {
-      console.log(response);
-      postMessage(response);
-    }
-  });
+  await ingest(newDocument)
+    .then(() => query(currentStatus))
+    .then(({ response }) => {
+      if (
+        response.toLocaleLowerCase().includes("empty response") ||
+        response
+          .toLocaleLowerCase()
+          .includes("here is not enough information provided")
+      ) {
+        console.log(" No new messages");
+        postMessage("No new messages");
+      } else {
+        console.log(response);
+        postMessage(response);
+      }
+    });
+
+    main()
+}
+
+main()
