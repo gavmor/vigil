@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import { Document, VectorStoreIndex, AstraDBVectorStore, Ollama, serviceContextFromDefaults, storageContextFromDefaults } from "llamaindex";
 
 export async function init() {
-  await astra().create("ragathon", {
+  return await astra().create("ragathon", {
     vector: { dimension: 1536, metric: "cosine" }
   });
 }
@@ -17,17 +17,13 @@ export async function ingest(messages){
   await VectorStoreIndex.fromDocuments(documents, { storageContext });
 }
 
-export async function query() {
+export async function query(string) {
   const vectorStore = astra();
   await vectorStore.connect("ragathon")
 
   const index = await VectorStoreIndex.fromVectorStore(vectorStore, serviceContextFromDefaults())
-
-  const results = await index.asRetriever().retrieve(
-    `Smith`,
-  );
-
-  console.log(results);
+  const nodes = await index.asRetriever().retrieve(string);
+  console.log(nodes);
 }
 
 function astra() {
