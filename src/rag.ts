@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { Document, VectorStoreIndex, AstraDBVectorStore, Ollama, serviceContextFromDefaults, storageContextFromDefaults } from "llamaindex";
 
-const path = "node_modules/llamaindex/examples/abramov.txt";
+const path = "sample.txt";
 const essay = await fs.readFile(path, "utf-8");
 async function main() {
   // await init()
@@ -33,7 +33,7 @@ async function query() {
 
   const index = await VectorStoreIndex.fromVectorStore(vectorStore, serviceContextFromDefaults())
 
-  const [{score: a}, {score: b}] = await index.asRetriever().retrieve(
+  const [a, b] = await index.asRetriever().retrieve(
     `Tell me a joke. Do not apologize.`,
   );
 
