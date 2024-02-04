@@ -25,4 +25,4 @@ function getUserStatus() {
 }
 
 setInterval(getUserStatus, 5000);
-setInterval(getChatMessages, 7000);
+//setInterval(getChatMessages, 7000);
