@@ -132,5 +132,8 @@ ingest(newDocument)
     ) {
       console.log(" No new messages");
       postMessage("No new messages");
+    } else {
+      console.log(response);
+      postMessage(response);
     }
   });
