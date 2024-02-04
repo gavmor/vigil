@@ -23,11 +23,12 @@ const documents = [
     _id: "1",
     lastActivity: "2/3/2024, 12:15:39 PM",
     userStatus: "I'm busy",
+    docID: 1,
   },
 ];
 
-// const results = await collection.insertMany(documents);
+//const results = await collection.insertMany(documents);
 
-// const data = await collection.deleteOne({ _id: "1" });
+//const data = await collection.deleteOne({ _id: "1" });
 const data = await collection.findOne({ _id: "1" });
 console.log(data);

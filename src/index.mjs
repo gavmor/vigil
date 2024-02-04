@@ -24,20 +24,15 @@ async function getUserInfo() {
 }
 
 async function updateUserStatus(newStatus) {
-  const userData = await timestampCollection.findOne({ _id: "1" });
-  const documents = [
-    {
-      _id: "1",
-      lastActivity: userData.lastActivity,
-      userStatus: newStatus,
-    },
-  ];
-  await timestampCollection.deleteOne({ _id: "1" });
-  const results = await timestampCollection.insertMany(documents);
-  return results;
+  const result = await timestampCollection.updateOne(
+    { _id: "1" },
+    { $set: { userStatus: newStatus } }
+  );
+  return result;
 }
 
 function getLatestMessages(messageHistory, lastTimestamp) {
+  console.log(`Last timestamp: ${lastTimestamp}\n`);
   const comparisonTimestamp = new Date(lastTimestamp);
   const newMessages = messageHistory.filter(({ localTimestamp }) => {
     const messageDate = new Date(localTimestamp);
@@ -50,19 +45,38 @@ async function testingPromise() {
   let user = await getUserInfo();
   let currentStatus = await fetchStatus();
   let lastActivity = user.lastActivity;
+
   if (user.userStatus !== currentStatus) {
     console.log("User status has changed");
     await updateUserStatus(currentStatus).then((result) => {
       console.log(result);
-      console.log("User status updated");
+      console.log("User status updated\n");
     });
   } else {
-    console.log("User status has not changed");
+    console.log("User status has not changed\n");
   }
 
   let messages = await fetchMessages();
-  let latestMessages = getLatestMessages(messages, lastActivity);
-  console.log(latestMessages);
+  const latestMessages = getLatestMessages(messages, lastActivity);
+  console.log(latestMessages.length + "\n");
+  if (latestMessages.length > 0) {
+    console.log("New messages found");
+    const documents = latestMessages.map(({ text, localTimestamp }) => {
+      return {
+        message: text,
+        timestamp: localTimestamp,
+      };
+    });
+    console.log(documents);
+    const latestMessage = documents.reduce((latest, current) => {
+      const currentTimestamp = new Date(current.localTimestamp);
+      const latestTimestamp = new Date(latest.localTimestamp);
+
+      return currentTimestamp > latestTimestamp ? current : latest;
+    });
+
+    console.log(latestMessage.timestamp);
+  }
 }
 
 testingPromise();
